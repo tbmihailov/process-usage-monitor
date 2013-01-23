@@ -27,7 +27,7 @@ namespace ProcessUsage
         public MainWindow()
         {
             InitializeComponent();
-            _processWatcher = new ProcessWatcher(1000, OnUserWorkingProcessChanged);
+            _processWatcher = new ProcessWatcher(500, OnUserWorkingProcessChanged);
             dataGridProcessLog.ItemsSource = _processUsageLog;
         }
 
@@ -41,6 +41,7 @@ namespace ProcessUsage
 
         void OnUserWorkingProcessChanged(Process oldProcess, Process newProcess)
         {
+            //for debug purposes
             //_executionsCount++;
             //if (_executionsCount >= _maxExecutionsCount)
             //{
@@ -48,19 +49,24 @@ namespace ProcessUsage
             //}
 
             string newProcessName = newProcess.ProcessName;
+            string newProcessTitle = newProcess.MainWindowTitle;
+            string newProcessMachineName = newProcess.MachineName;
             DateTime newProcessUsageFrom = DateTime.Now;
 
             if (_currentProcessUsage == null)
             {
                 _currentProcessUsage = new ProcessUsageInfo()
                                 {
+                                    MachineName = newProcessMachineName,
                                     Name = newProcessName,
+                                    Title = newProcessTitle,
                                     From = newProcessUsageFrom
                                 };
             }
             else
             {
-                if (_currentProcessUsage.Name != newProcessName)
+                if (_currentProcessUsage.Name != newProcessName
+                    || _currentProcessUsage.Title != newProcessTitle)
                 {
                     //set last process usage end
                     _currentProcessUsage.To = newProcessUsageFrom;
@@ -68,16 +74,18 @@ namespace ProcessUsage
                     //new process usage started
                     ProcessUsageInfo newProcessUsageInfo = new ProcessUsageInfo()
                     {
+                        MachineName = newProcessMachineName,
                         Name = newProcessName,
+                        Title = newProcessTitle,
                         From = newProcessUsageFrom
                     };
+
                     _currentProcessUsage = newProcessUsageInfo;
 
                     Dispatcher.BeginInvoke(
                         new Action(
                             () =>
                             {
-                                //var last    _processUsageLog.FirstOrDefault()
                                 _processUsageLog.Insert(0, _currentProcessUsage);
                             })
                     );

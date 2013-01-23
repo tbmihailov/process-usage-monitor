@@ -32,13 +32,15 @@ namespace ProcessUsage.Services
         {
             this._checkInterval = checkInterval;
             _timer = new Timer(_checkInterval);
-            _timer.Elapsed+=_timer_Elapsed;
+            _timer.Elapsed+=OnTimerElapsed;
         }
 
-        void _timer_Elapsed(object sender, ElapsedEventArgs e)
+        void OnTimerElapsed(object sender, ElapsedEventArgs e)
         {
             var newProcess = ProcessHelper.GetCurrentUserWorkingProcess();
-            if (_currentProcess == null || newProcess.ProcessName != _currentProcess.ProcessName)
+            if (_currentProcess == null
+                || newProcess.ProcessName != _currentProcess.ProcessName
+                || newProcess.MainWindowTitle != _currentProcess.MainWindowTitle)
             {
                 _previousProcess = _currentProcess;
                 _currentProcess = newProcess;

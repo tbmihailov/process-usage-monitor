@@ -10,7 +10,9 @@
         <Button x:Name="btnStart" Content="Start" Height="33" Click="btnStart_Click" />
         <DataGrid Grid.Row="1" x:Name="dataGridProcessLog" AutoGenerateColumns="False" VerticalAlignment="Stretch">
             <DataGrid.Columns>
+                <DataGridTextColumn Header="Machine" Binding="{Binding MachineName}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Process name" Binding="{Binding Name}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}"></DataGridTextColumn>
                 <DataGridTextColumn Header="From" Binding="{Binding From}"></DataGridTextColumn>
                 <DataGridTextColumn Header="To" Binding="{Binding To}" ></DataGridTextColumn>
                 <DataGridTextColumn Header="Interval" Binding="{Binding Interval}"></DataGridTextColumn>

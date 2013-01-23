@@ -9,6 +9,25 @@ namespace ProcessUsage.Models
 {
     public class ProcessUsageInfo : INotifyPropertyChanged
     {
+        private string _machineName;
+        public string MachineName
+        {
+            get
+            {
+                return _machineName;
+            }
+
+            set
+            {
+                if (_machineName == value)
+                {
+                    return;
+                }
+                _machineName = value;
+                RaisePropertyChanged("MachineName");
+            }
+        }
+
         private string _name;
         public string Name
         {
@@ -27,6 +46,26 @@ namespace ProcessUsage.Models
                 RaisePropertyChanged("Name");
             }
         }
+
+        private string _title;
+        public string Title
+        {
+            get
+            {
+                return _title;
+            }
+
+            set
+            {
+                if (_title == value)
+                {
+                    return;
+                }
+                _title = value;
+                RaisePropertyChanged("Title");
+            }
+        }
+
         private DateTime _from;
         public DateTime From
         {
